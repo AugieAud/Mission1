@@ -18,6 +18,10 @@ const ImageUpload = () => {
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent the default form submission behavior
 
+    // Log environment variables to ensure they are loaded correctly
+    console.log("Custom Vision URL:", process.env.VITE_CUSTOM_VISION_URL);
+    console.log("Custom Vision Key:", process.env.VITE_CUSTOM_VISION_KEY);
+
     // If no image is selected, alert the user and stop the function
     if (!image) {
       alert("Please upload an image.");
@@ -34,12 +38,12 @@ const ImageUpload = () => {
     try {
       // Send the image to the Azure Custom Vision API using axios
       const response = await axios.post(
-        process.env.REACT_APP_CUSTOM_VISION_URL, // URL for Custom Vision API from environment variables
+        "/predict/customvision/v3.0/Prediction/f93ce5d7-1045-4d24-99fd-9bd69f91b1ad/classify/iterations/Iteration3/image", // Proxy URL for Custom Vision API
         formData, // Image data to be sent
         {
           headers: {
-            "Prediction-Key": process.env.REACT_APP_CUSTOM_VISION_KEY, // API key from environment variables
-            "Content-Type": "multipart/form-data", // Set content type for file upload
+            "Prediction-Key": process.env.VITE_CUSTOM_VISION_KEY, // API key from environment variables
+            "Content-Type": "application/octet-stream", // Set content type for file upload
           },
         }
       );
