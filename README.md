@@ -1,8 +1,15 @@
-# React + Vite
+<!-- ABOUT THE PROJECT -->
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## About The Project
 
-Currently, two official plugins are available:
+Mission 1- This is a prototype of an AI solution that will help calculate insurance premium. I have used azure custom vision to create the AI for this project.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Built With
+
+- [![React][React.js]][React-url]
+
+<!-- GETTING STARTED -->
+
+## Getting Started
+
+Clone repository and then hit npm run dev
