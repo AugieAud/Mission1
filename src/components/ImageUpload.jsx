@@ -7,11 +7,18 @@ const ImageUpload = () => {
   const [image, setImage] = useState(null);
   // Define state for storing the result of the prediction
   const [result, setResult] = useState("");
+  //define state for storing the image preview URL
+  const [previewUrl, setPreviewUrl] = useState(null);
 
   // Handle the event when a file is selected by the user
   const handleFileChange = (e) => {
-    // Set the selected image file in the state
-    setImage(e.target.files[0]);
+    const file = e.target.files[0];
+    if (file) {
+      // Set the selected image file in the state
+      setImage(file);
+      // Create a preview URL for the selected image
+      setPreviewUrl(URL.createObjectURL(file));
+    }
   };
 
   // Handle the form submission event when the user submits an image for recognition
@@ -19,8 +26,8 @@ const ImageUpload = () => {
     e.preventDefault(); // Prevent the default form submission behavior
 
     // Log environment variables to ensure they are loaded correctly
-    console.log("Custom Vision URL:", process.env.VITE_CUSTOM_VISION_URL);
-    console.log("Custom Vision Key:", process.env.VITE_CUSTOM_VISION_KEY);
+    console.log("Custom Vision Key:", import.meta.env.VITE_CUSTOM_VISION_KEY);
+    console.log("Custom Vision URL:", import.meta.env.VITE_CUSTOM_VISION_URL);
 
     // If no image is selected, alert the user and stop the function
     if (!image) {
@@ -28,22 +35,15 @@ const ImageUpload = () => {
       return;
     }
 
-    // Prepare the image file for sending by creating a FormData object
-    //FormData is used to create a "package" that holds the image in a format suitable for web requests
-    const formData = new FormData();
-    // Append the selected file to the form data with the key "file"
-    //append attaches the actual file to this package, ready to be sent over to Azure in the API call
-    formData.append("file", image);
-
     try {
       // Send the image to the Azure Custom Vision API using axios
       const response = await axios.post(
-        "/predict/customvision/v3.0/Prediction/f93ce5d7-1045-4d24-99fd-9bd69f91b1ad/classify/iterations/Iteration3/image", // Proxy URL for Custom Vision API
-        formData, // Image data to be sent
+        import.meta.env.VITE_CUSTOM_VISION_URL, // Using environment variable for Custom Vision API URL
+        image, // Send image file directly as binary data
         {
           headers: {
-            "Prediction-Key": process.env.VITE_CUSTOM_VISION_KEY, // API key from environment variables
-            "Content-Type": "application/octet-stream", // Set content type for file upload
+            "Prediction-Key": import.meta.env.VITE_CUSTOM_VISION_KEY, // API key from environment variables
+            "Content-Type": "application/octet-stream", // Set content type for binary data
           },
         }
       );
@@ -55,9 +55,9 @@ const ImageUpload = () => {
 
       // Set the result state with the top prediction's tag (vehicle type) and confidence level
       setResult(
-        `Vehicle Type: ${topPrediction.tagName} (Confidence: ${
-          topPrediction.probability.toFixed(2) * 100
-        }%)`
+        `Vehicle Type: ${topPrediction.tagName} (Confidence: ${(
+          topPrediction.probability * 100
+        ).toFixed(2)}%)`
       );
     } catch (error) {
       // Log any errors to the console and show an error message in the UI
@@ -76,6 +76,14 @@ const ImageUpload = () => {
         {/* Submit button to start the image recognition process */}
         <button type="submit">Identify Vehicle Type</button>
       </form>
+      {/* Display the image preview if a file is selected */}
+      {previewUrl && (
+        <img
+          src={previewUrl}
+          alt="Preview"
+          style={{ maxWidth: "100%", marginTop: "20px" }}
+        />
+      )}
       {/* Display the result if it exists */}
       {result && <p>{result}</p>}
     </div>
