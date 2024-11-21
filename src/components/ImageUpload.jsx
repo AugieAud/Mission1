@@ -25,10 +25,6 @@ const ImageUpload = () => {
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent the default form submission behavior
 
-    // Log environment variables to ensure they are loaded correctly
-    console.log("Custom Vision Key:", import.meta.env.VITE_CUSTOM_VISION_KEY);
-    console.log("Custom Vision URL:", import.meta.env.VITE_CUSTOM_VISION_URL);
-
     // If no image is selected, alert the user and stop the function
     if (!image) {
       alert("Please upload an image.");
