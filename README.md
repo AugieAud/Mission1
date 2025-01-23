@@ -20,7 +20,7 @@ This application is a prototype developed for Turners Cars to demonstrate AI-pow
 
 ## Prerequisites
 
-- Python 3.8 or higher
+- JavaScript
 - Node.js and npm (for frontend development)
 - Cloud Platform Account (Azure/AWS/Google Cloud)
 - API credentials for the chosen cloud service
@@ -30,21 +30,15 @@ This application is a prototype developed for Turners Cars to demonstrate AI-pow
 1. Clone the repository:
 
 ```bash
-git clone [repository-url]
+git clone https://github.com/AugieAud/car-recognition-ai.git
 cd car-recognition-app
 ```
 
-2. Install Python dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-3. Set up environment variables:
+2. Set up environment variables:
    Create a `.env` file in the root directory and add your cloud service credentials:
 
 ```
-CLOUD_API_KEY=your_api_key_here
+CLOUD_API_KEY=BfsNBi46SKBiJkOqh5PDN5DXtn409B93VFbdGfuVev37sr8Nq4c4JQQJ99AKACL93NaXJ3w3AAAIACOGFZe5
 ```
 
 ## Running the Application
